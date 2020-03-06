@@ -162,8 +162,8 @@ class Client(object):
         else:
             logging.warning("Error getting outreaches")
 
-    def getOutreach(self, tool_id):
-        response = self.baseRequest('outreach/' + str(tool_id), {}, {}, 'GET', True, True)
+    def getOutreach(self, outreach_id):
+        response = self.baseRequest('outreach/' + str(outreach_id), {}, {}, 'GET', True, True)
         if (response.status_code == 200):
             return response.json()
         else:
