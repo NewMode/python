@@ -8,9 +8,9 @@ logger = logging.getLogger(__name__)
 API_URL = "https://engage.newmode.net/api/"
 
 
-class Newmode(object):
+class Client(object):
     """
-    Instantiate Newmode Class
+    Instantiate Client Class
 
     `Args:`
         api_user:
