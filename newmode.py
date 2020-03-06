@@ -13,17 +13,19 @@ class Newmode(object):
     Instantiate Newmode Class
 
     `Args:`
-        user_email:
-            The email of the API user for Copper. Not required if ``COPPER_USER_EMAIL``
+        api_user:
+            The username to use for the API requests. Not required if ``NEWMODE_API_URL``
             env variable set.
-        api_key:
-            The Copper provided application key. Not required if ``COPPER_API_KEY``
-            env. variable set.
+        api_password:
+            The password to use for the API requests. Not required if ``NEWMODE_API_PASSWORD``
+            env variable set.
+        api_version:
+            The api version to use. Defaults to v1.0
     `Returns:`
         NewMode Class
     """
 
-    def __init__(self, api_user=None, api_password=None, api_version=None):
+    def __init__(self, api_user=None, api_password=None, api_version='v1.0'):
 
         self.api_url = os.getenv('NEWMODE_API_URL', API_URL)
         self.api_user = os.getenv('NEWMODE_API_USER', api_user)
@@ -39,7 +41,6 @@ class Newmode(object):
 
         url += endpoint
 
-        # Authentication must be done through headers, requests HTTPBasicAuth doesn't work
         headers = {
             'Content-Type': "application/json"
         }
@@ -61,17 +62,109 @@ class Newmode(object):
         if (response.status_code == 200):
             data = response.json()
             return data['X-CSRF-Token']
+        else:
+            logging.warning("Error getting CSRF Token")
 
         return None
 
     def getTools(self):
         response = self.baseRequest('tool', {}, {}, 'GET', True, True)
-        print(response.status_code)
         if (response.status_code == 200):
             return response.json()['_embedded']['hal:tool']
+        else:
+            logging.warning("Error getting tools")
 
     def getTool(self, tool_id):
         response = self.baseRequest('tool/' + str(tool_id), {}, {}, 'GET', True, True)
-        print(response.status_code)
         if (response.status_code == 200):
             return response.json()
+        else:
+            logging.warning("Error getting tool")
+
+    def lookupTargets(self, tool_id, search=None):
+        endpoint = 'lookup/' + str(tool_id)
+        if (search): 
+            endpoint += '/' + search
+        response = self.baseRequest(endpoint, {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()
+        else:
+            logging.warning("Error looking up for targets")
+
+    def getAction(self, tool_id):
+        response = self.baseRequest('action/' + str(tool_id), {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()
+        else:
+            logging.warning("Error getting action")
+
+    def runAction(self, tool_id, payload):
+        response = self.baseRequest('action/' + str(tool_id), {}, json.dumps(payload), 'PUT', True, True)
+        if (response.status_code == 200):
+            return response.json()
+        else:
+            logging.warning("Error running action")
+
+    def getTarget(self, target_id):
+        response = self.baseRequest('target/' + str(target_id), {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()
+        else:
+            logging.warning("Error getting target")
+
+    def getCampaigns(self):
+        response = self.baseRequest('campaign', {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()['_embedded']['hal:campaign']
+        else:
+            logging.warning("Error getting campaigns")
+
+    def getCampaign(self, campaign_id):
+        response = self.baseRequest('campaign/' + str(campaign_id), {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()
+        else:
+            logging.warning("Error getting campaign")
+
+    def getOrganizations(self):
+        response = self.baseRequest('organization', {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()['data']
+        else:
+            logging.warning("Error getting organizations")
+
+    def getOrganization(self, organization_id):
+        response = self.baseRequest('organization/' + str(organization_id), {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()['data']
+        else:
+            logging.warning("Error getting organization")
+
+    def getServices(self):
+        response = self.baseRequest('service', {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()['_embedded']['hal:service']
+        else:
+            logging.warning("Error getting services")
+
+    def getService(self, service_id):
+        response = self.baseRequest('service/' + str(service_id), {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()
+        else:
+            logging.warning("Error getting service")
+
+    def getOutreaches(self, tool_id):
+        # @TODO: Review this.
+        response = self.baseRequest('outreach?nid=' + str(tool_id), {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()['_embedded']['hal:outreach']
+        else:
+            logging.warning("Error getting outreaches")
+
+    def getOutreach(self, tool_id):
+        response = self.baseRequest('outreach/' + str(tool_id), {}, {}, 'GET', True, True)
+        if (response.status_code == 200):
+            return response.json()
+        else:
+            logging.warning("Error getting outreach")
