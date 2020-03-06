@@ -1,6 +1,6 @@
-from newmode import Newmode
+from Newmode import Client
 
-api = Newmode()
+api = Client()
 
 payload = {
 	"first_name": "Mark",
