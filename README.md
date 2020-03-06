@@ -1,6 +1,6 @@
 # newmode-python
 
-[![Build Status](https://secure.travis-ci.org/twilio/twilio-python.png?branch=master)](https://travis-ci.org/twilio/twilio-python)
+[![Build Status](https://secure.travis-ci.org/NewMode/python.png?branch=master)](https://travis-ci.org/NewMode/python)
 
 ## Introduction
 
@@ -87,6 +87,8 @@ print(response)
 
 #### getTools
 
+Return all existing tools.
+
 ```python
 from Newmode import Client
 
@@ -100,6 +102,8 @@ print(response)
 ```
 
 #### getTool
+
+Return specific tool.
 
 ```python
 from Newmode import Client
@@ -115,6 +119,8 @@ print(response)
 ```
 
 #### lookupTargets
+
+Lookup for targets for a given tool.
 
 The search parameter could be:
 
@@ -152,13 +158,200 @@ response = client.lookupTargets(tool_id, search)
 print(response)
 ```
 
+#### getAction
+
+Return action information for given tool.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+tool_id = "XX"
+
+response = client.getAction(tool_id)
+print(response)
+```
+
+#### runAction
+
+Run action for given tool.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+tool_id = "XX"
+
+payload = {
+	"first_name": "Mark",
+	"last_name": "Styles",
+	"email_address": "lambic@pm.me",
+	"postal_code": "H4E 2Y7",
+	"email_subject": "This is my subject",
+	"your_letter": "This is my letter"
+}
+
+response = client.runAction(tool_id, payload)
+print(response)
+```
+
+#### getTarget
+
+Get specific target.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+target_id = "XXXXXX"
+
+response = client.getTarget(target_id)
+print(response)
+```
+
+#### getCampaigns
+
+Get existing campaigns.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+
+response = client.getCampaigns()
+print(response)
+```
+
+#### getCampaign
+
+Get specific campaign.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+campaign_id = "XX"
+
+response = client.getCampaign(campaign_id)
+print(response)
+```
+
+
+#### getOrganizations
+
+Get existing organizations.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+
+response = client.getOrganizations()
+print(response)
+```
+
+#### getOrganization
+
+Get specific organization.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+organization_id = "XX"
+
+response = client.getOrganization(organization_id)
+print(response)
+```
+
+#### getServices
+
+Get existing services.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+
+response = client.getServices()
+print(response)
+```
+
+#### getService
+
+Get specific service.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+service_id = "XX"
+
+response = client.getService(service_id)
+print(response)
+```
+
+#### getOutreaches
+
+Get existing outreaches for given tool.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+tool_id = "XX"
+
+response = client.getOutreaches(tool_id)
+print(response)
+```
+
+#### getOutreach
+
+Get specific outreach.
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+outreach_id = "XX"
+
+response = client.getOutreach(outreach_id)
+print(response)
+```
 
 ### Getting help
 
-If you need help installing or using the library, please check the [Twilio Support Help Center](https://support.twilio.com) first, and [file a support ticket](https://twilio.com/help/contact) if you don't find an answer to your question.
-
-If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
-
-[apidocs]: https://www.twilio.com/docs/api
-[twiml]: https://www.twilio.com/docs/api/twiml
-[libdocs]: https://twilio.github.io/twilio-python
+If you need help installing or using the library, please [contact us](https://www.newmode.net/contact).
