@@ -46,7 +46,7 @@ The `Client` needs your New/Mode credentials. You can either pass these
 directly to the constructor (see the code below) or via environment variables.
 
 ```python
-from Newmode.rest import Client
+from Newmode import Client
 
 api_user = "XXXXXXXXXXXXXXXXX"
 api_password = "YYYYYYYYYYYYYYYYYY"
