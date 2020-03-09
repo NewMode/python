@@ -1,7 +1,5 @@
 # newmode-python
 
-[![Build Status](https://secure.travis-ci.org/NewMode/python.png?branch=master)](https://travis-ci.org/NewMode/python)
-
 ## Introduction
 
 This project contains the Python API wrapper for New/Mode API.
