@@ -81,6 +81,27 @@ class Client(object):
         else:
             logging.warning("Error getting tool")
 
+    """
+    Lookup targets for a given tool
+
+    `Args:`
+        tool_id:
+            The tool to lookup targets.
+        search:
+            The search criteria. It could be:
+            - Empty: If empty, return custom targets associated to the tool.
+            - Postal code: Return targets matched by postal code.
+            - Lat/Long: Latitude and Longitude pair separated by '::'.
+              Ex. 45.451596::-73.59912099999997. It will return targets
+              matched for those coordinates.
+            - Address: In format thoroughfare::locality::administrative_area::country
+              It will return targets matched by the given address.
+            - Search term: For your csv tools, this will return targets
+              matched by given valid search term.
+    `Returns:`
+        Targets information.
+    """
+
     def lookupTargets(self, tool_id, search=None):
         endpoint = 'lookup/' + str(tool_id)
         if (search): 
@@ -91,12 +112,36 @@ class Client(object):
         else:
             logging.warning("Error looking up for targets")
 
+    """
+    Get action information.
+
+    `Args:`
+        tool_id:
+            The tool to retrieve.
+    `Returns:`
+        Action information including structure to run the action.
+    """
+
     def getAction(self, tool_id):
         response = self.baseRequest('action/' + str(tool_id), {}, {}, 'GET', True, True)
         if (response.status_code == 200):
             return response.json()
         else:
             logging.warning("Error getting action")
+
+    """
+    Run specific action
+
+    `Args:`
+        tool_id:
+            The tool to run.
+        payload:
+            The data to post to run the action.
+            This data structure will depend on what has been
+            returned by getAction.
+    `Returns:`
+        Posted outreach information.
+    """
 
     def runAction(self, tool_id, payload):
         response = self.baseRequest('action/' + str(tool_id), {}, json.dumps(payload), 'PUT', True, True)
