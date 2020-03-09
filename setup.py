@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="newmode-newmode", # Replace with your own username
-    version="0.1",
+    name="newmode",
+    version="0.1.1",
     author="New/Mode",
     author_email="info@newmode.net",
     description="New/Mode API Wrapper",
