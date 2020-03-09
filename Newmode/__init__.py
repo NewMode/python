@@ -155,7 +155,6 @@ class Client(object):
             logging.warning("Error getting service")
 
     def getOutreaches(self, tool_id):
-        # @TODO: Review this.
         response = self.baseRequest('outreach?nid=' + str(tool_id), {}, {}, 'GET', True, True)
         if (response.status_code == 200):
             return response.json()['_embedded']['hal:outreach']
