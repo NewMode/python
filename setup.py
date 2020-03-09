@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="newmode",
-    version="0.1.1",
+    version="0.1.2",
     author="New/Mode",
     author_email="info@newmode.net",
     description="New/Mode API Wrapper",
