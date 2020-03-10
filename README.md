@@ -350,6 +350,27 @@ response = client.getOutreach(outreach_id)
 print(response)
 ```
 
+### Paging
+
+In order to get results paginated, you need to send params like this:
+
+```python
+from Newmode import Client
+
+api_user = "XXXXXXXXXXXXXXXXX"
+api_password = "YYYYYYYYYYYYYYYYYY"
+api_version = "v1.0"
+client = Client(api_user, api_password, api_version)
+
+params = {
+	'page[size]': 5,
+	'page[number]': 2
+}
+
+response = client.getServices(params = params)
+print(response)
+```
+
 ### Getting help
 
 If you need help installing or using the library, please [contact us](https://www.newmode.net/contact).
