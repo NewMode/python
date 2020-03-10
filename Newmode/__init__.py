@@ -12,7 +12,7 @@ class Client(object):
     """
     Instantiate Client Class
 
-    `Args:`
+    Args:
         api_user:
             The username to use for the API requests. Not required if ``NEWMODE_API_URL``
             env variable set.
@@ -21,7 +21,7 @@ class Client(object):
             env variable set.
         api_version:
             The api version to use. Defaults to v1.0
-    `Returns:`
+    Returns:
         NewMode Class
     """
 
@@ -32,7 +32,7 @@ class Client(object):
         self.api_password = os.getenv('NEWMODE_API_PASSWORD', api_password)
         self.api_version = os.getenv('NEWMODE_API_VERSION', api_version)
 
-    def baseRequest(self, endpoint, params={}, payload={}, method='GET', supports_version=True, requires_csrf=False):
+    def baseRequest(self, endpoint, method='GET', payload={}, supports_version=True, requires_csrf=True, params={}):
         # Internal Request Method
 
         url = self.api_url
@@ -58,7 +58,7 @@ class Client(object):
         return response
 
     def getCSRFToken(self):
-        response = self.baseRequest('session/token', {}, {}, 'GET', False, False)
+        response = self.baseRequest('session/token', 'GET', {}, False, False)
         if (response.status_code == 200):
             data = response.json()
             return data['X-CSRF-Token']
@@ -68,14 +68,14 @@ class Client(object):
         return None
 
     def getTools(self):
-        response = self.baseRequest('tool', {}, {}, 'GET', True, True)
+        response = self.baseRequest('tool', 'GET')
         if (response.status_code == 200):
             return response.json()['_embedded']['hal:tool']
         else:
             logging.warning("Error getting tools")
 
     def getTool(self, tool_id):
-        response = self.baseRequest('tool/' + str(tool_id), {}, {}, 'GET', True, True)
+        response = self.baseRequest('tool/' + str(tool_id))
         if (response.status_code == 200):
             return response.json()
         else:
@@ -84,7 +84,7 @@ class Client(object):
     """
     Lookup targets for a given tool
 
-    `Args:`
+    Args:
         tool_id:
             The tool to lookup targets.
         search:
@@ -98,7 +98,7 @@ class Client(object):
               It will return targets matched by the given address.
             - Search term: For your csv tools, this will return targets
               matched by given valid search term.
-    `Returns:`
+    Returns:
         Targets information.
     """
 
@@ -106,7 +106,7 @@ class Client(object):
         endpoint = 'lookup/' + str(tool_id)
         if (search): 
             endpoint += '/' + search
-        response = self.baseRequest(endpoint, {}, {}, 'GET', True, True)
+        response = self.baseRequest(endpoint)
         if (response.status_code == 200):
             return response.json()
         else:
@@ -115,15 +115,15 @@ class Client(object):
     """
     Get action information.
 
-    `Args:`
+    Args:
         tool_id:
             The tool to retrieve.
-    `Returns:`
+    Returns:
         Action information including structure to run the action.
     """
 
     def getAction(self, tool_id):
-        response = self.baseRequest('action/' + str(tool_id), {}, {}, 'GET', True, True)
+        response = self.baseRequest('action/' + str(tool_id))
         if (response.status_code == 200):
             return response.json()
         else:
@@ -132,82 +132,82 @@ class Client(object):
     """
     Run specific action
 
-    `Args:`
+    Args:
         tool_id:
             The tool to run.
         payload:
             The data to post to run the action.
             This data structure will depend on what has been
             returned by getAction.
-    `Returns:`
+    Returns:
         Posted outreach information.
     """
 
     def runAction(self, tool_id, payload):
-        response = self.baseRequest('action/' + str(tool_id), {}, json.dumps(payload), 'PUT', True, True)
+        response = self.baseRequest('action/' + str(tool_id), 'PATCH', json.dumps(payload))
         if (response.status_code == 200):
             return response.json()
         else:
             logging.warning("Error running action")
 
     def getTarget(self, target_id):
-        response = self.baseRequest('target/' + str(target_id), {}, {}, 'GET', True, True)
+        response = self.baseRequest('target/' + str(target_id))
         if (response.status_code == 200):
             return response.json()
         else:
             logging.warning("Error getting target")
 
     def getCampaigns(self):
-        response = self.baseRequest('campaign', {}, {}, 'GET', True, True)
+        response = self.baseRequest('campaign')
         if (response.status_code == 200):
             return response.json()['_embedded']['hal:campaign']
         else:
             logging.warning("Error getting campaigns")
 
     def getCampaign(self, campaign_id):
-        response = self.baseRequest('campaign/' + str(campaign_id), {}, {}, 'GET', True, True)
+        response = self.baseRequest('campaign/' + str(campaign_id))
         if (response.status_code == 200):
             return response.json()
         else:
             logging.warning("Error getting campaign")
 
     def getOrganizations(self):
-        response = self.baseRequest('organization', {}, {}, 'GET', True, True)
+        response = self.baseRequest('organization')
         if (response.status_code == 200):
             return response.json()['data']
         else:
             logging.warning("Error getting organizations")
 
     def getOrganization(self, organization_id):
-        response = self.baseRequest('organization/' + str(organization_id), {}, {}, 'GET', True, True)
+        response = self.baseRequest('organization/' + str(organization_id))
         if (response.status_code == 200):
             return response.json()['data']
         else:
             logging.warning("Error getting organization")
 
     def getServices(self):
-        response = self.baseRequest('service', {}, {}, 'GET', True, True)
+        response = self.baseRequest('service')
         if (response.status_code == 200):
             return response.json()['_embedded']['hal:service']
         else:
             logging.warning("Error getting services")
 
     def getService(self, service_id):
-        response = self.baseRequest('service/' + str(service_id), {}, {}, 'GET', True, True)
+        response = self.baseRequest('service/' + str(service_id))
         if (response.status_code == 200):
             return response.json()
         else:
             logging.warning("Error getting service")
 
     def getOutreaches(self, tool_id):
-        response = self.baseRequest('outreach?nid=' + str(tool_id), {}, {}, 'GET', True, True)
+        response = self.baseRequest('outreach?nid=' + str(tool_id))
         if (response.status_code == 200):
             return response.json()['_embedded']['hal:outreach']
         else:
             logging.warning("Error getting outreaches")
 
     def getOutreach(self, outreach_id):
-        response = self.baseRequest('outreach/' + str(outreach_id), {}, {}, 'GET', True, True)
+        response = self.baseRequest('outreach/' + str(outreach_id))
         if (response.status_code == 200):
             return response.json()
         else:
