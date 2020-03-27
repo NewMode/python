@@ -94,8 +94,6 @@ class Client(object):
             - Lat/Long: Latitude and Longitude pair separated by '::'.
               Ex. 45.451596::-73.59912099999997. It will return targets
               matched for those coordinates.
-            - Address: In format thoroughfare::locality::administrative_area::country
-              It will return targets matched by the given address.
             - Search term: For your csv tools, this will return targets
               matched by given valid search term.
         params:
