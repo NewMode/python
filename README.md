@@ -130,14 +130,6 @@ For custom target tools, this will return all targets.
 
 For postal code tools, this will return targets matching the postal code.
 
-##### Address
-
-For address tools, this will return targets matching the address.
-Format could be:
-
-1) lat::long
-2) thoroughfare::locality::administrative_area::country
-
 ##### Custom
 
 For csv tools, where search is a valid search term this will return matching targets.
@@ -369,6 +361,15 @@ params = {
 
 response = client.getServices(params = params)
 print(response)
+```
+
+### Publishing new versions
+
+In order to publish new versions to Pypi.org, you need to run:
+
+```
+python3 setup.py sdist bdist_wheel
+python3 -m twine upload dist/*
 ```
 
 ### Getting help
