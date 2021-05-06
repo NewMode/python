@@ -2,6 +2,7 @@ from requests import request
 import os
 import json
 import logging
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -57,12 +58,15 @@ class Client(object):
 
         return response
 
-    def getCSRFToken(self):
+    def getCSRFToken(self, stage=1):
         response = self.baseRequest('session/token', 'GET', {}, False, False)
         if (response.status_code == 200):
             data = response.json()
             return data['X-CSRF-Token']
-        else:
+        elif stage == 1:
+            time.sleep(1)
+            return self.getCSRFToken(stage=2)
+        elif stage == 2:
             logging.warning("Error getting CSRF Token")
 
         return None
